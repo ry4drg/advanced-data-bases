@@ -1,6 +1,6 @@
 The error message **"aggregate functions are not allowed in WHERE"** happens because of the **order in which SQL processes the parts of a query** (the "logical processing").
 
-Here is a breakdown of how SQL actually thinks.
+Here is a breakdow of how SQL actually thinks.
 
 ### 1. The Logical Processing Order
 When you write a query, you read it top-to-bottom (`SELECT`, then `FROM`, then `WHERE`). But the SQL database engine does not evaluate it that way. It processes the query in this order:
