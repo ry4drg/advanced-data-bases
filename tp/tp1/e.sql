@@ -1,17 +1,25 @@
+/*
+	The main reason for my previous mistake is that, I didnt take into consideration that
+	a course is characterized by: its (course_id, sec_id, semester, year).
+ */
 SELECT department.dept_name, count(*) -- `find the total number of times`
 
-FROM teaches, course, section, department, teacher
+FROM teaches, section, department, teacher
 
 WHERE 
-	-- `a course was taught in that departments building`
-	teacher.id = teaches.id and
-	teaches.course_id = course.course_id and
-	course.dept_name = department.dept_name and
-        section.course_id = course.course_id and
-	section.building = department.building and	
+	-- `a course was taught`
+	(section.course_id, 
+		section.sec_id, 
+		section.semester, 
+		section.year) = (teaches.course_id, 
+		teaches.sec_id, 
+		teaches.semester, 
+		teaches.year) and
 	
-	-- `by that departments teachers`
-	teacher.dept_name = department.dept_name
+	-- `in that departments building by that departments teachers`
+	teacher.id = teaches.id and
+	teacher.dept_name = department.dept_name and
+	section.building = department.building 
 	
 GROUP BY department.dept_name -- `for each department`
 ;
