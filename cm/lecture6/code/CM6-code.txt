@@ -1,0 +1,488 @@
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT *
+FROM teacher
+ORDER BY SALARY DESC
+LIMIT 3; 
+
+
+
+#################################Slide 2#######################################
+SELECT *
+FROM teacher
+ORDER BY SALARY DESC
+OFFSET 6; 
+
+
+
+#################################Slide 3#######################################
+SELECT *
+FROM teacher
+ORDER BY SALARY DESC
+LIMIT 3 OFFSET 5; 
+
+
+
+#################################Slide 5#######################################
+SELECT ARRAY['a', 'b', 'c', '3'];
+
+
+
+#################################Slide 6#######################################
+ALTER TABLE teacher ADD COLUMN specialties text[];
+
+
+
+#################################Slide 6#######################################
+create table teacher
+	(ID		varchar(5), 
+	 name		varchar(20), 
+	 dept_name	varchar(20), 
+	 salary		numeric(8,2),
+	 specialties	text[],
+	 primary key (ID),
+	 foreign key (dept_name) references department
+	);
+
+
+
+#################################Slide 7#######################################
+UPDATE teacher 
+SET specialties = ARRAY['python', 'sql', 'complexity'] 
+WHERE id = '10101';
+
+
+
+#################################Slide 8#######################################
+ALTER TABLE teacher ADD COLUMN specialties text[];
+
+UPDATE teacher SET specialties = '{python,sql,complexity}' WHERE ID = '10101';   
+UPDATE teacher SET specialties = '{fin1,fin2}'             WHERE ID = '12121';   
+UPDATE teacher SET specialties = '{mus1,mus2,mus3,mus4}'   WHERE ID = '15151';   
+UPDATE teacher SET specialties = '{phys1,phys2,phys3}'     WHERE ID = '22222';  
+UPDATE teacher SET specialties = '{his1,his2,his3}'        WHERE ID = '32343';  
+UPDATE teacher SET specialties = '{phys2,phys1,phys4}'     WHERE ID = '33456';   
+UPDATE teacher SET specialties = '{sql,complexity}'        WHERE ID = '45565';   
+UPDATE teacher SET specialties = '{bio6,bio4}'             WHERE ID = '76766';   
+UPDATE teacher SET specialties = '{sql,algorithms}'        WHERE ID = '83821';  
+
+
+
+
+#################################Slide 9#######################################
+create table teacher_specialty
+	(ID		varchar(5),
+	 specialty	varchar(20),
+	 primary key (ID, specialty),
+	 foreign key (ID) references teacher (ID)
+	);
+
+
+
+
+#################################Slide 9#######################################
+create table teacher
+	(ID		varchar(5), 
+	 name		varchar(20), 
+	 dept_name	varchar(20), 
+	 salary		numeric(8,2),
+	 primary key (ID),
+	 foreign key (dept_name) references department
+	);
+
+
+
+#################################Slide 10#######################################
+SELECT name, specialties[1] 
+FROM teacher;
+
+
+
+#################################Slide 11#######################################
+SELECT name, specialties[1:2] 
+FROM teacher;
+
+
+
+#################################Slide 12#######################################
+SELECT ARRAY['first', 'second', name]  
+FROM teacher;
+
+
+
+#################################Slide 12#######################################
+SELECT (ARRAY['first', 'second'])[5];
+
+
+
+#################################Slide 13#######################################
+SELECT * 
+FROM teacher
+WHERE 'phys1' = ANY(specialties);
+
+
+
+#################################Slide 14#######################################
+SELECT name, unnest(specialties) 
+FROM teacher;
+
+
+
+#################################Slide 15#######################################
+SELECT unnest( array['abc','def'] ) as attrib1 ;
+
+
+
+#################################Slide 15#######################################
+SELECT * 
+FROM unnest( array['abc','def'] ) as mytable(attrib1) ;
+
+
+
+#################################Slide 16#######################################
+SELECT name, spec
+FROM teacher, unnest(teacher.specialties) AS t(spec);
+
+
+
+#################################Slide 16#######################################
+SELECT name, l
+FROM teacher, unnest(ARRAY['x', 'y']) AS t(l);
+
+
+
+#################################Slide 17#######################################
+SELECT ARRAY_AGG(name ORDER BY name DESC)
+FROM teacher; 
+
+
+
+#################################Slide 17#######################################
+SELECT ARRAY_AGG(name)  
+FROM teacher;
+
+
+
+#################################Slide 18#######################################
+SELECT ARRAY_AGG(course_id || ': ' || title)
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+
+
+
+#################################Slide 19#######################################
+SELECT ARRAY (SELECT name FROM teacher WHERE dept_name = 'Comp. Sci.');
+
+
+
+#################################Slide 20#######################################
+SELECT array_to_string(specialties, '-')
+FROM teacher;
+
+
+
+#################################Slide 21#######################################
+SELECT * 
+FROM teacher
+WHERE array_to_string(specialties, ',')  LIKE 'sql%';
+
+
+
+#################################Slide 22#######################################
+SELECT * 
+FROM teacher
+WHERE EXISTS (SELECT 1
+               FROM unnest(specialties) as data
+               WHERE data LIKE 'sql%');
+
+
+
+#################################Slide 23#######################################
+SELECT ARRAY['python','sql'] &amp;&amp; ARRAY['sql','ml'],
+        ARRAY['python','sql'] @> ARRAY['python']; 
+
+
+
+#################################Slide 23#######################################
+SELECT cardinality(ARRAY['a','b','c']),
+       array_position(ARRAY['a','b','c'], 'b'),
+       array_position(ARRAY['a','b','c'], 'x');
+
+
+
+#################################Slide 24#######################################
+SELECT array_append(ARRAY['a', 'b'], 'c'),
+        array_cat(ARRAY['a', 'b'], ARRAY['c', 'd']),
+        ARRAY['a', 'b'] || ARRAY['c', 'd']; 
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{`name': `John'}
+
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{
+  "name": "John"   // a person
+}
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{
+  "name": "John",
+  "age": 30,
+}
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{"name": John}
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{"ok": True}
+
+
+
+
+
+#################################Slide 38#######################################
+This fails.
+
+{
+  "name": "John"    
+  "age": 30
+}
+
+
+
+#################################Slide 39#######################################
+This fails.
+
+userObject: {                     
+  name: "John"                    
+}
+
+
+
+#################################Slide 39#######################################
+This fails.
+
+  { "name": "John" }: "value"
+
+
+
+#################################Slide 39#######################################
+This fails.
+
+  { "name" }
+
+
+
+#################################Slide 44#######################################
+CREATE TABLE users (
+    name TEXT,
+    profile JSONB
+);
+
+INSERT INTO users (name, profile) VALUES
+('firstname', '{"name": "John", "age": 30, "address": {"city": "NYC", "zip": "10001"}}'),
+('secondname', '{"name": "Alice", "age": 25, "address": {"city": "Boston", "zip": "02108"}}');
+
+
+
+
+
+#################################Slide 45#######################################
+SELECT profile->'name'  
+FROM users;
+
+
+
+
+#################################Slide 45#######################################
+SELECT profile->'age' 
+FROM users;
+
+
+
+
+#################################Slide 45#######################################
+SELECT profile->'address'
+FROM users;
+
+
+
+
+#################################Slide 45#######################################
+SELECT profile->'zip'
+FROM users;
+
+
+
+
+#################################Slide 46#######################################
+SELECT profile->'zip'
+FROM users;
+
+
+
+
+#################################Slide 46#######################################
+SELECT profile->'address'->'zip'
+FROM users;
+
+
+
+#################################Slide 47#######################################
+SELECT profile->>'name'  
+FROM users;
+
+
+
+
+#################################Slide 47#######################################
+SELECT profile->>'address'
+FROM users;
+
+
+
+
+#################################Slide 48#######################################
+This fails.
+
+SELECT profile->>'age' * 2.0
+FROM users;
+
+
+
+#################################Slide 48#######################################
+SELECT (profile->>'age')::NUMERIC * 2.0
+FROM users;
+
+
+
+#################################Slide 49#######################################
+SELECT pg_typeof(profile->'name'),  
+        pg_typeof(profile->>'name'),
+        pg_typeof(profile->'address'),  
+        pg_typeof(profile->>'address'),
+        pg_typeof(ARRAY[1,2,3])
+FROM users 
+LIMIT 1;
+
+
+
+
+#################################Slide 50#######################################
+SELECT *                       
+FROM users
+WHERE profile->>'name' = 'John';
+
+
+
+
+#################################Slide 50#######################################
+This fails.
+
+SELECT *                       
+FROM users
+WHERE profile->'name' = 'John';
+
+
+
+
+#################################Slide 51#######################################
+INSERT INTO users (name, profile) 
+VALUES ('thirdname', '{"hobbies":["sports", "games", "reading"]}'); 
+
+
+
+#################################Slide 51#######################################
+SELECT profile->'hobbies'                 
+FROM users;
+
+
+
+#################################Slide 52#######################################
+SELECT profile->'hobbies'->0, profile->'hobbies'->2 
+FROM users; 
+
+
+
+#################################Slide 53#######################################
+SELECT profile->>'name' as name
+FROM users
+WHERE profile @> '{"address": {"city": "NYC"}}';
+
+
+
+
+#################################Slide 53#######################################
+SELECT *        
+FROM users
+WHERE profile ? 'hobbies' ;
+
+
+
+
+#################################Slide 53#######################################
+SELECT *
+FROM users
+WHERE profile ?&amp; array['name', 'age'] ;
+
+
+
+#################################Slide 53#######################################
+SELECT *        
+FROM users
+WHERE profile ?| array['hobbies','what'] ;
+
+
+
+#################################Slide 54#######################################
+SELECT jsonb_pretty(profile) 
+FROM users;
+
+
+
+#################################Slide 55#######################################
+SELECT jsonb_array_elements(profile->'hobbies') 
+FROM users;
+
+
+
+#################################Slide 56#######################################
+SELECT dept_name, 
+       jsonb_agg( jsonb_build_object('name', name, 'salary', salary) ) 
+FROM teacher 
+GROUP BY dept_name;
+
+
+
+
+#################################Slide 57#######################################
+UPDATE users
+SET profile = jsonb_set(profile, '{address, city}', '"Paris"')
+WHERE name = 'firstname';
+

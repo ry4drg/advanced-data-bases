@@ -1,0 +1,1011 @@
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+WITH max_budget (new_attr) AS 
+      (SELECT max(budget) 
+       FROM department) 
+
+SELECT dept_name 
+FROM department, max_budget 
+WHERE department.budget = max_budget.new_attr;
+
+
+
+#################################Slide 2#######################################
+SELECT dept_name 
+FROM department 
+WHERE department.budget IN 
+          (SELECT max(budget) 
+           FROM department);
+
+
+
+#################################Slide 3#######################################
+WITH max_budget (new_attr) AS 
+    (SELECT max(budget) 
+     FROM department) 
+
+SELECT dept_name 
+FROM department, max_budget 
+WHERE department.budget = max_budget.new_attr;
+
+
+
+#################################Slide 3#######################################
+WITH max_budget AS 
+    (SELECT max(budget) as abc 
+     FROM department) 
+
+SELECT dept_name 
+FROM department, max_budget 
+WHERE department.budget = max_budget.abc;
+
+
+
+#################################Slide 4#######################################
+This fails.
+
+WITH max_budget (def) AS 
+    (SELECT max(budget) as abc 
+     FROM department) 
+
+SELECT dept_name 
+FROM department, max_budget 
+WHERE department.budget = max_budget.abc;
+
+
+
+#################################Slide 4#######################################
+WITH max_budget (def) AS 
+    (SELECT max(budget) as abc 
+     FROM department) 
+
+SELECT dept_name 
+FROM department, max_budget 
+WHERE department.budget = max_budget.def;
+
+
+
+#################################Slide 5#######################################
+SELECT * 
+FROM student, takes 
+WHERE student.id = takes.id;
+
+
+
+#################################Slide 5#######################################
+WITH A AS 
+   (SELECT * 
+    FROM student, takes 
+    WHERE student.id = takes.id) 
+
+SELECT * 
+FROM A;
+
+
+
+#################################Slide 8#######################################
+WITH dept_total (dept_name, value) AS 
+    (SELECT dept_name, sum(salary) 
+     FROM teacher 
+     GROUP BY dept_name), 
+
+  dept_total_avg (value) AS 
+     (SELECT avg(value) 
+      FROM dept_total) 
+
+SELECT dept_name 
+FROM dept_total, dept_total_avg 
+WHERE dept_total.value >= dept_total_avg.value;
+
+
+
+#################################Slide 9#######################################
+WITH dept_total (dept_name, value) AS 
+    (SELECT dept_name, sum(salary) 
+     FROM teacher 
+     GROUP BY dept_name), 
+
+dept_total_avg (value) AS 
+    (SELECT avg(value) 
+     FROM dept_total) 
+
+SELECT dept_name 
+FROM dept_total, dept_total_avg 
+WHERE dept_total.value >= dept_total_avg.value;
+
+
+
+#################################Slide 10#######################################
+SELECT * 
+FROM ( VALUES ('a',10), ('b', 20) ) AS A(f,s);
+
+
+
+#################################Slide 10#######################################
+WITH mynewtable (name, grade) AS 
+    (SELECT 'john', 10 
+       UNION ALL 
+     SELECT 'james', 16 
+       UNION ALL 
+     SELECT 'joe', 20) 
+
+SELECT * 
+FROM mynewtable;
+
+
+
+#################################Slide 10#######################################
+WITH T(f,s) AS 
+ (SELECT * 
+  FROM ( VALUES ('john',10), 
+             ('james', 16), 
+             ('joe', 20) )  
+ )
+
+SELECT * 
+FROM T;
+
+
+
+#################################Slide 14#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    UNION 
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b')) AS table2(attr2)); 
+
+
+
+#################################Slide 15#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    UNION ALL
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b')) AS table2(attr2)); 
+
+
+
+#################################Slide 16#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    UNION ALL
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b'), ('a')) AS table2(attr2)); 
+
+
+
+#################################Slide 18#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    INTERSECT 
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b')) AS table2(attr2)); 
+
+
+
+#################################Slide 19#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    INTERSECT ALL
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b'), ('a')) AS table2(attr2)); 
+
+
+
+#################################Slide 22#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('a'), ('b')) AS table1(attr1))
+
+    EXCEPT
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b'), ('a')) AS table2(attr2)); 
+
+
+
+#################################Slide 23#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('a'), ('b')) AS table1(attr1))
+
+    EXCEPT ALL
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b'), ('a')) AS table2(attr2)); 
+
+
+
+#################################Slide 24#######################################
+(SELECT * 
+ FROM (VALUES ('a'), ('a'), ('b')) AS table1(attr1))
+
+    EXCEPT ALL
+
+(SELECT * 
+ FROM (VALUES ('a'), ('b'), ('a')) AS table2(attr2)); 
+
+
+
+#################################Slide 25#######################################
+(SELECT dept_name FROM teacher)
+   EXCEPT
+(SELECT name FROM teacher); 
+
+
+
+#################################Slide 33#######################################
+SELECT T1.id, T1.grade, T2.id, T2.grade, (T1.grade = T2.grade) 
+FROM takes as T1, takes as T2 
+WHERE T1.id = '98988' AND T1.year = 2010;
+
+
+
+#################################Slide 34#######################################
+(SELECT 'abc', null AS a)
+
+   EXCEPT
+
+(SELECT 'abc', null AS b); 
+
+
+
+#################################Slide 34#######################################
+(SELECT 'abc', null AS a)
+
+   UNION
+
+(SELECT 'abc', null AS b); 
+
+
+
+#################################Slide 35#######################################
+SELECT count(*) 
+FROM takes;
+
+
+
+#################################Slide 35#######################################
+SELECT count(grade) 
+FROM takes;
+
+
+
+#################################Slide 36#######################################
+SELECT NOT NULL;
+
+
+
+#################################Slide 36#######################################
+SELECT TRUE OR NULL;
+
+
+
+#################################Slide 37#######################################
+SELECT 'hello' IN (null, 'hello'); 
+
+
+
+#################################Slide 37#######################################
+SELECT 'hello' NOT IN (null, 'hello'); 
+
+
+
+#################################Slide 37#######################################
+SELECT 'hello' IN (null, 'bye'); 
+
+
+
+#################################Slide 37#######################################
+SELECT 'hello' NOT IN (null, 'bye'); 
+
+
+
+#################################Slide 38#######################################
+SELECT * FROM takes WHERE grade = NULL; 
+
+
+
+#################################Slide 38#######################################
+SELECT * FROM takes WHERE grade != NULL; 
+
+
+
+#################################Slide 38#######################################
+SELECT * FROM takes WHERE grade IS NULL; 
+
+
+
+#################################Slide 39#######################################
+SELECT *
+FROM teacher
+WHERE salary > NULL; 
+
+
+
+#################################Slide 39#######################################
+SELECT *
+FROM teacher
+WHERE salary < NULL; 
+
+
+
+#################################Slide 39#######################################
+SELECT *
+FROM teacher
+WHERE salary != NULL; 
+
+
+
+#################################Slide 40#######################################
+SELECT (grade IS null) 
+FROM takes;
+
+
+
+#################################Slide 41#######################################
+SELECT *
+FROM takes
+WHERE grade LIKE 'A'
+      OR grade IS NULL; 
+
+
+
+#################################Slide 41#######################################
+SELECT *
+FROM takes
+WHERE grade LIKE 'A'
+      OR grade IS NULL; 
+
+
+
+#################################Slide 42#######################################
+SELECT *
+FROM takes
+WHERE grade NOT LIKE 'A'; 
+
+
+
+#################################Slide 43#######################################
+SELECT *
+FROM takes
+WHERE grade NOT LIKE 'A'
+      OR grade IS NULL; 
+
+
+
+#################################Slide 44#######################################
+SELECT * 
+FROM takes 
+ORDER BY grade NULLS FIRST;
+
+
+
+#################################Slide 44#######################################
+SELECT * 
+FROM takes 
+ORDER BY grade NULLS LAST;
+
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT name 
+FROM teacher 
+WHERE salary > ALL (SELECT T.salary 
+            FROM teacher AS T 
+            WHERE T.dept_name = 'Comp. Sci.');
+
+
+
+#################################Slide 3#######################################
+SELECT *
+FROM teacher
+WHERE salary >= ALL ( VALUES (70000),(90000) ); 
+
+
+
+#################################Slide 3#######################################
+SELECT *
+FROM teacher
+WHERE salary >= ALL ( VALUES (120000),(90000) ); 
+
+
+
+#################################Slide 5#######################################
+SELECT dept_name, count(*) 
+FROM teacher 
+GROUP BY dept_name 
+HAVING count(*) >= ALL(SELECT count(*) 
+                         FROM teacher 
+                         GROUP BY dept_name);
+
+
+
+#################################Slide 5#######################################
+SELECT A.dept_name, count(*) 
+FROM teacher as A 
+GROUP BY A.dept_name 
+HAVING count(*) >= ( SELECT max(c) 
+                      FROM (SELECT count(*) as c 
+                             FROM teacher as B 
+                             GROUP BY B.dept_name) 
+                    );
+
+
+
+#################################Slide 6#######################################
+SELECT name 
+FROM teacher 
+WHERE salary > 
+      SOME (SELECT T. salary 
+            FROM teacher AS T 
+            WHERE T.dept_name = 'Comp. Sci.');
+
+
+
+#################################Slide 7#######################################
+SELECT *
+FROM teacher
+WHERE salary >= SOME ( VALUES (70000),(90000) ); 
+
+
+
+#################################Slide 7#######################################
+SELECT *
+FROM teacher
+WHERE salary >= SOME ( VALUES (120000),(90000) ); 
+
+
+
+#################################Slide 9#######################################
+SELECT student.name 
+FROM student, takes 
+WHERE student.id = takes.id 
+GROUP BY student.name 
+HAVING count(*) = 
+               (SELECT max(mynum) 
+                FROM (SELECT count(*) as mynum 
+                       FROM takes 
+                       GROUP BY id ) as mytable 
+               );
+
+
+
+#################################Slide 11#######################################
+SELECT student.name 
+FROM takes, student 
+WHERE takes.id = student.id 
+GROUP BY student.name 
+HAVING count(*) >= ALL (SELECT count(*) 
+                         FROM takes 
+                         GROUP BY id);
+
+
+
+#################################Slide 12#######################################
+SELECT S.id, S.name 
+FROM student as S 
+WHERE EXISTS (SELECT * 
+               FROM takes as T 
+               WHERE T.id = S.id 
+                      AND T.year = 2009);
+
+
+
+#################################Slide 13#######################################
+SELECT S.id, S.name 
+FROM student as S 
+WHERE NOT EXISTS (SELECT * 
+                   FROM takes as T 
+                   WHERE T.id = S.id 
+                          AND T.year = 2009);
+
+
+
+#################################Slide 14#######################################
+SELECT EXISTS (SELECT *
+                FROM teacher
+                WHERE salary < 10000); 
+
+
+
+#################################Slide 14#######################################
+SELECT NOT EXISTS (SELECT *
+                     FROM teacher
+                     WHERE salary < 10000); 
+
+
+
+#################################Slide 14#######################################
+SELECT EXISTS (SELECT count(*)
+                FROM teacher
+                WHERE salary < 10000); 
+
+
+
+#################################Slide 15#######################################
+SELECT S.name, EXISTS (SELECT * 
+                        FROM takes AS T 
+                        WHERE S.id = T.id AND T.grade = 'A') 
+FROM student as S;
+
+
+
+#################################Slide 16#######################################
+SELECT S.id, S.name 
+FROM student as S 
+WHERE NOT EXISTS (SELECT * 
+                   FROM takes as T 
+                   WHERE T.id = S.id 
+                         AND T.year = 2009);
+
+
+
+#################################Slide 17#######################################
+(SELECT student.id, student.name 
+ FROM student) 
+
+      EXCEPT 
+
+(SELECT student.id, student.name  
+ FROM takes, student 
+ WHERE takes.id = student.id and takes.year = 2009);
+
+
+
+#################################Slide 19#######################################
+SELECT id, name, dept_name, (CASE 
+                       WHEN dept_name = 'Comp. Sci.' THEN 'CS' 
+                       WHEN dept_name = 'History' THEN 'Histoire' 
+                       ELSE dept_name END) 
+FROM teacher;
+
+
+
+#################################Slide 19#######################################
+SELECT id, name, dept_name, (CASE 
+           WHEN dept_name = 'Comp. Sci.' THEN 'CS' 
+           WHEN dept_name = 'History' THEN 'Histoire' 
+           ELSE dept_name END) as new_name 
+FROM teacher;
+
+
+
+#################################Slide 19#######################################
+SELECT id, name, dept_name, (CASE dept_name 
+            WHEN 'Comp. Sci.' THEN 'CS' 
+            WHEN 'History' THEN 'Histoire' 
+            ELSE dept_name END) 
+FROM teacher;
+
+
+
+#################################Slide 20#######################################
+SELECT id, AVG (CASE 
+             WHEN grade = 'A' THEN 4.0 
+             WHEN grade = 'B' THEN 3.0 
+             WHEN grade = 'C' THEN 2.0 
+             WHEN grade = 'D' THEN 1.0 
+             ELSE 0.0 END) 
+FROM takes 
+GROUP BY id;
+
+
+
+#################################Slide 21#######################################
+SELECT 
+  COUNT(CASE WHEN salary > 80000 THEN 1 END) as high,
+  COUNT(CASE WHEN salary BETWEEN 50000 AND 80000 THEN 1 END) as medium,  
+  COUNT(CASE WHEN salary < 50000 THEN 1 END) as low
+FROM teacher;
+
+
+
+#################################Slide 23#######################################
+SELECT *
+FROM teacher
+ORDER BY (CASE 
+          WHEN dept_name = 'Comp. Sci.' THEN 1 
+          ELSE 2 END), salary; 
+
+
+
+#################################Slide 24#######################################
+SELECT s.ID, s.name, s.dept_name, s.tot_cred, (CASE 
+            WHEN s.tot_cred >= 100 THEN 'Senior'
+            WHEN s.tot_cred >= 60 THEN 'Junior'
+            WHEN s.tot_cred >= 30 THEN 'Sophomore'
+            ELSE 'Freshman' END) AS standing,
+      (CASE WHEN EXISTS (SELECT 1 FROM takes t WHERE t.ID = s.ID 
+                                              AND (t.grade = 'F' OR t.grade IS NULL)) THEN 'At Risk'
+             WHEN s.tot_cred < (SELECT AVG(tot_cred) FROM student) THEN 'Below Average Credits'
+             ELSE 'Good Standing' END) AS status,
+      (CASE WHEN (SELECT COUNT(*) FROM takes t WHERE t.ID = s.ID AND t.grade IN ('A', 'A-')) > 
+                  (SELECT COUNT(*) FROM takes t WHERE t.ID = s.ID 
+                                           AND t.grade IN ('C', 'C-', 'D', 'F')) THEN 'High Achiever'
+             WHEN (SELECT COUNT(*) FROM takes t WHERE t.ID = s.ID 
+                                           AND t.grade = 'F') > 2 THEN 'Academic Probation'
+             ELSE 'Standard' END) AS category
+FROM student s;
+
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT distinct S1.name, S2.name 
+FROM student as S1, takes AS T1, student AS S2, takes AS T2 
+WHERE S1.id = T1.id AND S2.id = T2.id AND T1.course_id = T2.course_id 
+         AND T1.sec_id = T2.sec_id AND T1.semester = T2.semester 
+         AND T1.year = T2.year AND S1.id < S2.id;
+
+
+
+#################################Slide 3#######################################
+SELECT distinct A.name, B.name 
+FROM (SELECT * 
+      FROM student, takes 
+      WHERE student.id = takes.id) AS A, 
+     (SELECT * 
+      FROM student, takes 
+      WHERE student.id = takes.id) AS B 
+WHERE A.course_id = B.course_id AND A.sec_id = B.sec_id 
+   AND A.semester = B.semester AND A.year = B.year AND A.id < B.id;
+
+
+
+#################################Slide 3#######################################
+SELECT distinct S1.name, S2.name 
+FROM student as S1, takes AS T1, student AS S2, takes AS T2 
+WHERE S1.id = T1.id AND S2.id = T2.id AND T1.course_id = T2.course_id 
+         AND T1.sec_id = T2.sec_id AND T1.semester = T2.semester 
+         AND T1.year = T2.year AND S1.id < S2.id;
+
+
+
+#################################Slide 4#######################################
+WITH A AS (SELECT *   
+           FROM student, takes 
+           WHERE student.id = takes.id), 
+     B AS (SELECT *
+           FROM student, takes 
+           WHERE student.id = takes.id) 
+SELECT distinct A.name, B.name 
+FROM A, B 
+WHERE A.course_id = B.course_id AND A.sec_id = B.sec_id 
+    AND A.semester = B.semester AND A.year = B.year AND A.id < B.id;
+
+
+
+#################################Slide 4#######################################
+SELECT distinct S1.name, S2.name 
+FROM student as S1, takes AS T1, student AS S2, takes AS T2 
+WHERE S1.id = T1.id AND S2.id = T2.id AND T1.course_id = T2.course_id 
+         AND T1.sec_id = T2.sec_id AND T1.semester = T2.semester 
+         AND T1.year = T2.year AND S1.id < S2.id;
+
+
+
+#################################Slide 5#######################################
+SELECT * 
+FROM student, takes 
+WHERE student.id = takes.id;
+
+
+
+#################################Slide 7#######################################
+SELECT * 
+FROM student INNER JOIN takes ON student.id = takes.id;
+
+
+
+#################################Slide 7#######################################
+SELECT * 
+FROM student, takes 
+WHERE student.id = takes.id;
+
+
+
+#################################Slide 8#######################################
+SELECT * 
+FROM student INNER JOIN takes ON student.id = takes.id;
+
+
+
+#################################Slide 10#######################################
+SELECT * 
+FROM student INNER JOIN takes ON student.id = takes.id AND year = 2010;
+
+
+
+#################################Slide 11#######################################
+SELECT * 
+FROM (student INNER JOIN takes ON student.id = takes.id) 
+        INNER JOIN department ON student.dept_name = department.dept_name;
+
+
+
+#################################Slide 12#######################################
+SELECT * 
+FROM (student INNER JOIN takes ON student.id = takes.id) AS A 
+           INNER JOIN department ON A.dept_name = department.dept_name;
+
+
+
+#################################Slide 13#######################################
+This fails.
+
+SELECT id 
+FROM (student INNER JOIN takes ON student.id = takes.id) AS A 
+        INNER JOIN department ON A.dept_name = department.dept_name;
+
+
+
+#################################Slide 14#######################################
+SELECT * 
+FROM (student INNER JOIN takes ON student.id = takes.id) AS mytable(a, b, c, d, e, f, g, h);
+
+
+
+#################################Slide 15#######################################
+SELECT mytable.a 
+FROM (student INNER JOIN takes ON student.id = takes.id) AS mytable(a, b, c, d, e, f, g, h);
+
+
+
+#################################Slide 15#######################################
+This fails.
+
+SELECT student.id 
+FROM (student INNER JOIN takes ON student.id = takes.id) AS mytable(a, b, c, d, e, f, g, h);
+
+
+
+#################################Slide 15#######################################
+SELECT S.id 
+FROM student AS S INNER JOIN takes AS T ON S.id = T.id;
+
+
+
+#################################Slide 15#######################################
+This fails.
+
+SELECT S.id 
+FROM (student AS S INNER JOIN takes AS T ON S.id = T.id) AS A;
+
+
+
+#################################Slide 18#######################################
+SELECT * 
+FROM student CROSS JOIN takes;
+
+
+
+#################################Slide 18#######################################
+SELECT * 
+FROM student INNER JOIN takes ON TRUE;
+
+
+
+#################################Slide 18#######################################
+SELECT * 
+FROM student, takes;
+
+
+
+#################################Slide 20#######################################
+SELECT * 
+FROM student LEFT OUTER JOIN takes 
+                ON student.id = takes.id;
+
+
+
+#################################Slide 21#######################################
+SELECT * 
+FROM student LEFT OUTER JOIN takes 
+      ON student.id = takes.id;
+
+
+
+#################################Slide 22#######################################
+SELECT * 
+FROM student RIGHT OUTER JOIN takes 
+     ON student.id = takes.id;
+
+
+
+#################################Slide 23#######################################
+SELECT * 
+FROM teacher RIGHT OUTER JOIN teaches 
+      ON teacher.id = teaches.id;
+
+
+
+#################################Slide 24#######################################
+SELECT * 
+FROM teacher LEFT OUTER JOIN teaches 
+      ON teacher.id = teaches.id;
+
+
+
+#################################Slide 25#######################################
+SELECT * 
+FROM teacher FULL OUTER JOIN teaches 
+      ON teacher.id = teaches.id;
+
+
+
+#################################Slide 26#######################################
+This fails.
+
+SELECT * 
+FROM teacher OUTER JOIN teaches 
+      ON teacher.id = teaches.id;
+
+
+
+#################################Slide 28#######################################
+SELECT student.id, student.name, 
+  student.dept_name,
+  student.tot_cred, takes.course_id, 
+  takes.sec_id, takes.semester, 
+  takes.year, takes.grade 
+FROM student, takes 
+WHERE student.id = takes.id;
+
+
+
+#################################Slide 28#######################################
+SELECT * 
+FROM student NATURAL INNER JOIN takes;
+
+
+
+#################################Slide 31#######################################
+SELECT * 
+FROM takes NATURAL INNER JOIN section;
+
+
+
+#################################Slide 32#######################################
+SELECT * 
+FROM teacher NATURAL LEFT OUTER JOIN teaches;
+
+
+
+#################################Slide 33#######################################
+SELECT * 
+FROM department NATURAL INNER JOIN teaches;
+
+
+
+#################################Slide 35#######################################
+SELECT * 
+FROM student NATURAL INNER JOIN teaches;
+
+
+
+#################################Slide 37#######################################
+SELECT * 
+FROM student NATURAL INNER JOIN takes;
+
+
+
+#################################Slide 38#######################################
+SELECT * 
+FROM (student NATURAL INNER JOIN takes) AS A 
+      NATURAL INNER JOIN 
+     (student NATURAL INNER JOIN takes) AS B;
+
+
+
+#################################Slide 39#######################################
+SELECT * 
+FROM (student NATURAL INNER JOIN takes) AS A 
+      NATURAL INNER JOIN 
+     (student NATURAL INNER JOIN takes) AS B;
+
+
+
+#################################Slide 40#######################################
+SELECT * 
+FROM student NATURAL INNER JOIN takes;
+
+
+
+#################################Slide 40#######################################
+SELECT * 
+FROM (student NATURAL INNER JOIN takes) AS A 
+      NATURAL INNER JOIN 
+     (student NATURAL INNER JOIN takes) AS B;
+
+
+
+#################################Slide 43#######################################
+SELECT * 
+FROM teacher INNER JOIN department 
+     ON teacher.dept_name = department.dept_name;
+
+
+
+#################################Slide 43#######################################
+SELECT * 
+FROM teacher INNER JOIN department USING (dept_name);
+
+
+
+#################################Slide 45#######################################
+This fails.
+
+SELECT * 
+FROM takes INNER JOIN section USING (id);
+
+
+
+#################################Slide 48#######################################
+SELECT student.name, teacher.name 
+FROM (student LEFT JOIN advisor ON student.id = s_id) 
+       INNER JOIN teacher ON i_id = teacher.id;
+
+
+
+#################################Slide 48#######################################
+SELECT student.name, teacher.name 
+FROM student LEFT JOIN 
+    (advisor INNER JOIN teacher ON i_id = teacher.id) 
+    ON student.id = s_id;
+
+
+
+#################################Slide 50#######################################
+SELECT * 
+FROM teacher LEFT OUTER JOIN teaches 
+     ON teacher.id = teaches.id;
+
+
+
+#################################Slide 51#######################################
+SELECT teacher.name, teacher.id, count(*) 
+FROM teacher INNER JOIN teaches 
+       ON teacher.id = teaches.id 
+GROUP BY teacher.name, teacher.id 
+ORDER BY count(*) DESC;
+
+
+
+#################################Slide 52#######################################
+SELECT teacher.name, teacher.id, count(*) 
+FROM teacher LEFT OUTER JOIN teaches USING (id) 
+GROUP BY teacher.name, teacher.id 
+ORDER BY count(*) DESC;
+
+
+
+#################################Slide 53#######################################
+SELECT teacher.name, teacher.id, count(course_id) 
+FROM teacher LEFT OUTER JOIN teaches USING (id) 
+GROUP BY teacher.name, teacher.id 
+ORDER BY count(course_id) DESC;
+

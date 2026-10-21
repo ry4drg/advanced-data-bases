@@ -1,0 +1,654 @@
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT id, name, salary * 2 
+FROM teacher ;
+
+
+
+#################################Slide 3#######################################
+SELECT CONCAT(name, 'InUniversity') 
+FROM teacher ;
+
+
+
+#################################Slide 4#######################################
+SELECT name || 'InUniversity' 
+FROM teacher ;
+
+
+
+#################################Slide 6#######################################
+SELECT * 
+FROM department AS A, department AS B;
+
+
+
+#################################Slide 7#######################################
+SELECT id, name, salary * 1.1 AS newsalary 
+FROM teacher ;
+
+
+
+#################################Slide 8#######################################
+SELECT name AS mymodifiedname, id 
+FROM teacher ;
+
+
+
+#################################Slide 8#######################################
+SELECT T.name, T.salary 
+FROM teacher AS T 
+WHERE T.salary >= 80000;
+
+
+
+#################################Slide 9#######################################
+SELECT name AS mymodifiedname, id 
+FROM teacher ;
+
+
+
+#################################Slide 9#######################################
+SELECT T.name, T.salary 
+FROM teacher AS T 
+WHERE T.salary >= 80000;
+
+
+
+#################################Slide 10#######################################
+SELECT T.name, T.salary 
+FROM teacher AS T 
+WHERE T.salary >= 80000;
+
+
+
+#################################Slide 10#######################################
+SELECT T.name, salary, dept_name 
+FROM teacher AS T 
+WHERE salary >= 80000;
+
+
+
+#################################Slide 13#######################################
+SELECT CONCAT(name, 'InUniversity') AS anewname 
+FROM teacher ;
+
+
+
+#################################Slide 14#######################################
+This fails.
+
+SELECT course_id 
+FROM section as A, section as B 
+WHERE A.semester='Spring' AND A.year=2010 AND B.semester='Fall' 
+      AND B.year = '2009' AND A.course_id = B.course_id; 
+
+
+
+#################################Slide 15#######################################
+SELECT A.course_id 
+FROM section as A, section as B 
+WHERE A.semester='Spring' AND A.year=2010 AND B.semester='Fall'
+       AND B.year = '2009' AND A.course_id = B.course_id; 
+
+
+
+#################################Slide 16#######################################
+SELECT * 
+FROM teacher AS mytable(a,b,c,d);
+
+
+
+#################################Slide 17#######################################
+SELECT * 
+FROM teacher AS mytable(a,b,c);
+
+
+
+#################################Slide 18#######################################
+This fails.
+
+SELECT name, salary*1.1 AS abc, abc 
+FROM teacher
+
+
+
+#################################Slide 19#######################################
+SELECT SUBSTRING(name FROM 1 FOR 1) as abc, count(*)
+FROM teacher
+GROUP BY abc;
+
+
+
+#################################Slide 19#######################################
+SELECT SUBSTRING(name FROM 2 FOR 1) as abc, count(*)
+FROM teacher
+GROUP BY abc;
+
+
+
+#################################Slide 19#######################################
+SELECT SUBSTRING(name FROM 1 FOR 2) as abc, count(*)
+FROM teacher
+GROUP BY abc;
+
+
+
+#################################Slide 21#######################################
+SELECT distinct A.name 
+FROM teacher AS A, teacher AS B 
+WHERE A.salary > B.salary 
+     AND B.dept_name = 'Comp. Sci.'; 
+
+
+
+#################################Slide 21#######################################
+SELECT distinct A.name 
+FROM teacher AS A, teacher AS B 
+WHERE A.salary > B.salary 
+    AND B.dept_name = 'Comp. Sci.' 
+ORDER BY name; 
+
+
+
+#################################Slide 22#######################################
+SELECT distinct A.name 
+FROM teacher AS A, teacher AS B 
+WHERE A.salary > B.salary AND B.dept_name = 'Comp. Sci.' 
+ORDER BY A.name; 
+
+
+
+#################################Slide 22#######################################
+This fails.
+
+SELECT distinct A.name 
+FROM teacher AS A, teacher AS B 
+WHERE A.salary > B.salary 
+     AND B.dept_name = 'Comp. Sci.' 
+ORDER BY B.name; 
+
+
+
+#################################Slide 22#######################################
+SELECT distinct A.name 
+FROM teacher AS A, teacher AS B 
+WHERE A.salary > B.salary AND B.dept_name = 'Comp. Sci.' 
+ORDER BY A.name DESC; 
+
+
+
+#################################Slide 23#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester ASC; 
+
+
+
+#################################Slide 24#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester DESC; 
+
+
+
+#################################Slide 25#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester ASC, sec_id DESC;
+
+
+
+#################################Slide 26#######################################
+SELECT * 
+FROM takes 
+ORDER BY sec_id DESC, semester ASC;
+
+
+
+#################################Slide 27#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester ASC, sec_id DESC, year ASC;
+
+
+
+#################################Slide 27#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester ASC, sec_id DESC;
+
+
+
+#################################Slide 28#######################################
+SELECT * 
+FROM takes 
+ORDER BY semester ASC, sec_id DESC, year ASC;
+
+
+
+#################################Slide 31#######################################
+SELECT id, name, dept_name, salary 
+FROM teacher 
+WHERE dept_name = 'Comp. Sci.' 
+      OR dept_name = 'History';
+
+
+
+#################################Slide 31#######################################
+SELECT id, name, dept_name, salary 
+FROM teacher 
+WHERE dept_name IN ('Comp. Sci.', 'History');
+
+
+
+#################################Slide 32#######################################
+SELECT id, name, dept_name, salary 
+FROM teacher 
+WHERE dept_name NOT IN ('Comp. Sci.', 'History');
+
+
+
+#################################Slide 33#######################################
+SELECT id, name, salary 
+FROM teacher 
+WHERE dept_name IN ('Comp. Sci.', 'History');
+
+
+
+#################################Slide 33#######################################
+SELECT course_id 
+FROM section 
+WHERE (semester, year) IN 
+        ( ('Summer', 2009), ('Fall', 2009) );
+
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT semester, year 
+FROM section 
+GROUP BY sec_id, semester, year; 
+
+
+
+#################################Slide 3#######################################
+SELECT semester, year 
+FROM section 
+GROUP BY sec_id, semester, year; 
+
+
+
+#################################Slide 6#######################################
+SELECT dept_name, count(*) 
+FROM teacher 
+GROUP BY dept_name;
+
+
+
+#################################Slide 7#######################################
+This fails.
+
+SELECT dept_name, count(*) 
+FROM teacher 
+WHERE count(*) >= 2 
+GROUP BY dept_name;
+
+
+
+#################################Slide 8#######################################
+This fails.
+
+SELECT dept_name, count(*) 
+FROM teacher 
+WHERE count(*) >= 2 
+GROUP BY dept_name;
+
+
+
+#################################Slide 9#######################################
+SELECT dept_name, count(*) 
+FROM teacher 
+GROUP BY dept_name 
+HAVING count(*) >= 2;
+
+
+
+#################################Slide 10#######################################
+SELECT course_id, sec_id, semester, year, avg(tot_cred) 
+FROM takes, student 
+WHERE year = 2009 and takes.id = student.id 
+GROUP BY course_id, sec_id, semester, year 
+HAVING count(student.id) >= 2;
+
+
+
+#################################Slide 12#######################################
+SELECT course_id, sec_id, semester, year, avg(tot_cred) 
+FROM takes, student 
+WHERE year = 2009 and takes.id = student.id 
+GROUP BY course_id, sec_id, semester, year 
+HAVING count(student.id) >= 2;
+
+
+
+#################################Slide 13#######################################
+SELECT course_id, sec_id, semester, year, avg(tot_cred) 
+FROM takes, student 
+WHERE year = 2009 and takes.id = student.id 
+GROUP BY course_id, sec_id, semester, year 
+HAVING count(student.id) >= 2;
+
+
+
+#################################Slide 15#######################################
+SELECT student.id, student.name 
+FROM takes, student 
+WHERE student.id = takes.id 
+GROUP BY student.id, student.name 
+HAVING count(*) = 1;
+
+
+
+#################################Slide 16#######################################
+SELECT student.id, student.name, COUNT(course_id) 
+FROM takes, student 
+WHERE student.id = takes.id 
+GROUP BY student.id, student.name 
+HAVING COUNT(course_id) >= 2;
+
+
+
+#################################Slide 17#######################################
+SELECT student.id, student.name, COUNT(course_id) 
+FROM takes, student 
+WHERE student.id = takes.id 
+GROUP BY student.id, student.name 
+HAVING count(course_id) >= 2 
+ORDER BY count(course_id);
+
+
+
+#################################Slide 18#######################################
+This fails.
+
+SELECT tot_cred
+FROM student 
+HAVING tot_cred > 50;
+
+
+
+#################################Slide 19#######################################
+This fails.
+
+SELECT tot_cred
+FROM student 
+HAVING tot_cred > 50;
+
+
+
+#################################Slide 19#######################################
+SELECT avg(tot_cred) 
+FROM student 
+HAVING avg(tot_cred) > 50;
+
+
+
+#################################Slide 19#######################################
+SELECT avg(tot_cred) 
+FROM student 
+HAVING avg(tot_cred) > 500;
+
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 6#######################################
+SELECT dept_name, avg(salary) as avg_salary 
+FROM teacher 
+GROUP BY dept_name 
+HAVING avg(salary) >= 42000;
+
+
+
+#################################Slide 8#######################################
+SELECT dept_name, avg_salary 
+FROM (SELECT dept_name, avg(salary) as avg_salary 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE avg_salary > 42000;
+
+
+
+#################################Slide 9#######################################
+This fails.
+
+SELECT dept_name, avg(salary) 
+FROM (SELECT dept_name, avg(salary) 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE avg(salary) > 42000;
+
+
+
+#################################Slide 10#######################################
+This fails.
+
+SELECT dept_name, avg(salary) 
+FROM (SELECT dept_name, avg(salary) 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE avg(salary) > 42000;
+
+
+
+#################################Slide 10#######################################
+SELECT dept_name, avg_salary
+FROM (SELECT dept_name, avg(salary) as avg_salary
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE avg_salary > 42000;
+
+
+
+#################################Slide 11#######################################
+SELECT max(summed_credits) 
+FROM (SELECT dept_name, sum(credits) 
+                         as summed_credits 
+      FROM course 
+      GROUP BY dept_name) as mytable;
+
+
+
+#################################Slide 12#######################################
+SELECT dept_name, count(*) as count_teachers 
+FROM teacher 
+GROUP BY dept_name 
+HAVING count(*) >= 2;
+
+
+
+#################################Slide 12#######################################
+SELECT dept_name, count_teachers 
+FROM (SELECT dept_name, count(*) as count_teachers 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE count_teachers >= 2;
+
+
+
+#################################Slide 15#######################################
+SELECT course_id 
+FROM section 
+WHERE course_id IN 
+        (SELECT course_id 
+         FROM section 
+         WHERE semester='Spring' AND year=2010) 
+      AND semester='Fall' AND year = '2009';
+
+
+
+#################################Slide 16#######################################
+This fails.
+
+SELECT course_id 
+FROM section 
+WHERE course_id IN 
+       (SELECT course_id, building 
+        FROM section 
+        WHERE semester='Spring' and year=2010);
+
+
+
+#################################Slide 17#######################################
+SELECT count (distinct id) 
+FROM takes 
+WHERE (course_id, sec_id, semester, year) IN 
+          (SELECT course_id, sec_id, semester, year 
+           FROM teaches 
+           WHERE teaches.id=10101);
+
+
+
+#################################Slide 18#######################################
+SELECT count (distinct id) 
+FROM takes 
+WHERE (course_id, sec_id, semester, year) IN 
+          (SELECT course_id, sec_id, semester, year 
+           FROM teaches 
+           WHERE teaches.id=10101);
+
+
+
+#################################Slide 18#######################################
+SELECT count (distinct id)
+FROM takes
+WHERE (course_id, sec_id, semester, year) IN 
+     ( ('CS-101', '1', 'Fall', 2009), 
+       ('CS-315', '1', 'Spring', 2010), 
+       ('CS-347', '1', 'Fall', 2009) );
+
+
+
+#################################Slide 19#######################################
+SELECT dept_name 
+FROM department 
+WHERE department.budget IN 
+    (SELECT max(budget) 
+     FROM department);
+
+
+
+#################################Slide 19#######################################
+SELECT dept_name 
+FROM department 
+WHERE department.budget = 
+         (SELECT max(budget) 
+         FROM department);
+
+
+
+#################################Slide 22#######################################
+SELECT name, (SELECT count(*) 
+               FROM teacher AS B 
+               WHERE B.dept_name = A.dept_name) 
+FROM teacher AS A;
+
+
+
+#################################Slide 23#######################################
+SELECT name, (SELECT count(*) 
+               FROM teacher AS B 
+               WHERE B.salary >= A.salary) 
+FROM teacher AS A;
+
+
+
+#################################Slide 26#######################################
+SELECT dept_name, count(*) 
+FROM teacher 
+GROUP BY dept_name 
+HAVING count(*) >= 2;
+
+
+
+#################################Slide 26#######################################
+SELECT A.dept_name, count(*) 
+FROM teacher as A 
+GROUP BY A.dept_name 
+HAVING count(*) >= 
+               (SELECT max(c) 
+                 FROM (SELECT count(*) as c 
+                       FROM teacher as B 
+                       GROUP BY B.dept_name) 
+               );
+
+
+
+#################################Slide 27#######################################
+This fails.
+
+SELECT student.id 
+FROM (SELECT student.id, teacher.id 
+      FROM student, teacher) as T;
+
+
+
+#################################Slide 27#######################################
+This fails.
+
+SELECT T.student.id 
+FROM (SELECT student.id, teacher.id 
+      FROM student, teacher) as T;
+
+
+
+#################################Slide 27#######################################
+SELECT T.a 
+FROM (SELECT student.id as a, teacher.id as b 
+      FROM student, teacher) as T;
+
+
+
+#################################Slide 27#######################################
+This fails.
+
+SELECT id 
+FROM (SELECT student.id, teacher.id 
+      FROM student, teacher) as T;
+
+
+
+#################################Slide 28#######################################
+SELECT mytable.dept_name, mytable.avg_salary 
+FROM (SELECT dept_name, avg(salary) as avg_salary 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE mytable.avg_salary >= 42000;
+
+
+
+#################################Slide 28#######################################
+This fails.
+
+SELECT mytable.dept_name, mytable.avg_salary 
+FROM (SELECT dept_name, avg(salary) as avg_salary 
+      FROM teacher 
+      GROUP BY dept_name) as mytable 
+WHERE mytable.avg_salary >= 
+       (SELECT max(B.avg_salary) 
+        FROM mytable as B);
+

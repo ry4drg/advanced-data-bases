@@ -1,0 +1,524 @@
+
+
+#--------------------------------topic: --------------------------------#
+
+
+
+
+#################################Slide 2#######################################
+SELECT name, 
+   (SELECT avg(salary) 
+    FROM teacher AS B 
+    WHERE B.dept_name = A.dept_name) 
+
+FROM teacher AS A; 
+
+
+
+#################################Slide 2#######################################
+WITH mytable(id, dept_name, salary) AS 
+   (SELECT A.id, A.dept_name, A.salary 
+    FROM teacher AS A 
+    WHERE 2 >= (SELECT count(*) 
+             FROM teacher AS B 
+             WHERE B.dept_name = A.dept_name 
+             AND B.salary >= A.salary) 
+   ) 
+
+SELECT A.name, (SELECT avg(mytable.salary) 
+                 FROM mytable 
+                 WHERE A.dept_name = mytable.dept_name) 
+FROM teacher AS A; 
+
+
+
+#################################Slide 6#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 6#######################################
+This fails.
+
+SELECT name, salary, AVG(salary)  
+FROM teacher 
+
+
+
+#################################Slide 6#######################################
+This fails.
+
+WINDOW w AS (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+
+
+
+#################################Slide 7#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 8#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 9#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 9#######################################
+SELECT name, salary, AVG(salary) OVER (ORDER BY SALARY 
+             ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM teacher; 
+
+
+
+#################################Slide 10#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY SALARY); 
+
+
+
+#################################Slide 10#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY SALARY 
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW); 
+
+
+
+#################################Slide 11#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY SALARY 
+         ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING); 
+
+
+
+#################################Slide 12#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WHERE name LIKE '%an%' 
+WINDOW w AS (ORDER BY SALARY 
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING); 
+
+
+
+#################################Slide 13#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher
+WINDOW w AS (PARTITION BY dept_name 
+        ORDER BY salary 
+        ROWS BETWEEN 0 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 14#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (PARTITION BY dept_name 
+         ORDER BY salary 
+         ROWS BETWEEN 0 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 15#######################################
+SELECT name, dept_name, salary, 
+         AVG(salary) OVER w as avg_dept_salary, 
+         MAX(salary) OVER w as max_dept_salary
+FROM teacher
+WINDOW w AS (PARTITION BY dept_name)
+ORDER BY dept_name, salary; 
+
+
+
+#################################Slide 16#######################################
+SELECT dept_name, AVG(salary), AVG(AVG(salary)) OVER w 
+FROM teacher 
+GROUP BY dept_name 
+WINDOW w AS (ORDER BY dept_name 
+              ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 17#######################################
+SELECT dept_name, AVG(salary), AVG(AVG(salary)) OVER w 
+FROM teacher 
+GROUP BY dept_name 
+WINDOW w AS (ORDER BY dept_name 
+              ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 22#######################################
+SELECT name, SUM(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY salary 
+      ROWS BETWEEN 1 PRECEDING AND 0 FOLLOWING); 
+
+
+
+#################################Slide 23#######################################
+SELECT name, SUM(salary) OVER 
+                         (ORDER BY salary) 
+FROM teacher; 
+
+
+
+#################################Slide 24#######################################
+SELECT name, MAX(salary) OVER 
+               (ORDER BY salary) 
+FROM teacher; 
+
+
+
+#################################Slide 24#######################################
+SELECT name, MIN(salary) OVER 
+            (ORDER BY salary) 
+FROM teacher; 
+
+
+
+#################################Slide 24#######################################
+SELECT name, AVG(salary) OVER 
+            (ORDER BY salary) 
+FROM teacher; 
+
+
+
+#################################Slide 26#######################################
+SELECT name, RANK() OVER 
+                (ORDER BY salary ASC) 
+FROM teacher; 
+
+
+
+#################################Slide 27#######################################
+SELECT name, RANK() OVER 
+              (ORDER BY salary DESC) 
+FROM teacher; 
+
+
+
+#################################Slide 27#######################################
+SELECT name, RANK() OVER 
+             (ORDER BY dept_name ASC) 
+FROM teacher; 
+
+
+
+#################################Slide 27#######################################
+SELECT name, RANK() OVER 
+          (ORDER BY dept_name ASC) 
+FROM teacher 
+ORDER BY name; 
+
+
+
+#################################Slide 28#######################################
+SELECT name, DENSE_RANK() OVER 
+              (ORDER BY dept_name ASC) 
+FROM teacher; 
+
+
+
+#################################Slide 28#######################################
+SELECT name, RANK() OVER 
+           (ORDER BY dept_name ASC) 
+FROM teacher; 
+
+
+
+#################################Slide 29#######################################
+SELECT name, ROW_NUMBER() OVER 
+           (ORDER BY dept_name) 
+FROM teacher; 
+
+
+
+#################################Slide 29#######################################
+SELECT name, RANK() OVER 
+           (ORDER BY dept_name) 
+FROM teacher; 
+
+
+
+#################################Slide 30#######################################
+SELECT name, NTILE(2) OVER 
+               (ORDER BY dept_name) 
+FROM teacher; 
+
+
+
+#################################Slide 30#######################################
+SELECT name, NTILE(5) OVER 
+         (ORDER BY dept_name) 
+FROM teacher; 
+
+
+
+#################################Slide 30#######################################
+SELECT name, RANK() OVER 
+         (ORDER BY dept_name) 
+FROM teacher; 
+
+
+
+#################################Slide 31#######################################
+SELECT name, row_number() OVER w
+FROM teacher
+WINDOW w AS (ORDER BY name
+     ROWS BETWEEN 0 PRECEDING AND 0 FOLLOWING); 
+
+
+
+#################################Slide 31#######################################
+SELECT name, rank() OVER w
+FROM teacher
+WINDOW w AS (ORDER BY salary
+     ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 33#######################################
+SELECT name, LAG(name, 2) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY salary); 
+
+
+
+#################################Slide 34#######################################
+SELECT name, LEAD(name, 2) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY salary); 
+
+
+
+#################################Slide 35#######################################
+SELECT name, NTH_VALUE(name, 2) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY salary); 
+
+
+
+#################################Slide 36#######################################
+SELECT name, NTH_VALUE(name, 2) OVER w 
+FROM teacher
+WINDOW w AS (ORDER BY salary 
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING); 
+
+
+
+#################################Slide 37#######################################
+SELECT name, salary - LAG(salary, 1) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY salary);
+
+
+
+#################################Slide 39#######################################
+SELECT name, dept_name, RANK() OVER 
+              (PARTITION BY dept_name 
+               ORDER BY salary) 
+FROM teacher 
+ORDER BY dept_name; 
+
+
+
+#################################Slide 41#######################################
+SELECT name, dept_name, salary, AVG(salary) OVER 
+                (PARTITION BY dept_name 
+                 ORDER BY salary 
+                 ROWS UNBOUNDED PRECEDING)
+FROM teacher; 
+
+
+
+#################################Slide 42#######################################
+SELECT course_id, title, credits, SUM(credits) OVER 
+            (ORDER BY credits
+             ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) 
+FROM course; 
+
+
+
+#################################Slide 43#######################################
+SELECT name, dept_name, salary, SUM(salary) OVER 
+                    (PARTITION BY dept_name 
+                     ORDER BY salary 
+                     ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM teacher; 
+
+
+
+#################################Slide 44#######################################
+SELECT name, salary, dept_name, AVG(salary) OVER w
+FROM teacher
+WINDOW w AS 
+ (PARTITION BY dept_name 
+  ORDER BY salary 
+  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING EXCLUDE CURRENT ROW); 
+
+
+
+#################################Slide 45#######################################
+SELECT id, course_id, semester, year, 
+       COUNT(*) OVER 
+           (PARTITION BY id
+            ORDER BY year, semester
+            ROWS UNBOUNDED PRECEDING), 
+       AVG(COUNT(*)) OVER 
+           (PARTITION BY id
+            ORDER BY year, semester
+            ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) 
+FROM teaches
+GROUP BY id, course_id, semester, year; 
+
+
+
+#################################Slide 47#######################################
+SELECT name, salary, COUNT(*) OVER 
+   (ORDER BY salary 
+    RANGE BETWEEN 15000 PRECEDING AND 5000 FOLLOWING) 
+FROM teacher; 
+
+
+
+#################################Slide 48#######################################
+This fails.
+
+SELECT name, salary, COUNT(*) OVER 
+   (ORDER BY salary, name
+    RANGE BETWEEN 15000 PRECEDING AND 5000 FOLLOWING) 
+FROM teacher; 
+
+
+
+#################################Slide 49#######################################
+SELECT s.dept_name, s.ID, s.tot_cred,
+ AVG(tot_cred) OVER 
+   (PARTITION BY s.dept_name 
+    ORDER BY tot_cred 
+    ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING) as local_avg,
+ AVG(tot_cred) OVER 
+    (PARTITION BY s.dept_name 
+     ORDER BY tot_cred
+     RANGE BETWEEN 10 PRECEDING AND 10 FOLLOWING) as range_avg
+FROM student s; 
+
+
+
+#################################Slide 51#######################################
+SELECT name, salary, AVG(salary) OVER w 
+FROM teacher 
+WINDOW w AS (ORDER BY salary 
+             GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 52#######################################
+SELECT dept_name, AVG(salary), AVG(AVG(salary)) OVER 
+           (ORDER BY dept_name 
+            GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING) 
+FROM teacher 
+GROUP BY dept_name; 
+
+
+
+#################################Slide 52#######################################
+SELECT dept_name, AVG(salary), AVG(AVG(salary)) OVER 
+           (ORDER BY dept_name 
+            ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) 
+FROM teacher 
+GROUP BY dept_name; 
+
+
+
+#################################Slide 53#######################################
+SELECT dept_name, COUNT(*), AVG(COUNT(*)) OVER 
+     (ORDER BY COUNT(*) 
+      GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING) 
+FROM teacher 
+GROUP BY dept_name; 
+
+
+
+#################################Slide 56#######################################
+This fails.
+
+SELECT dept_name, AVG(salary) OVER w
+FROM teacher 
+GROUP BY dept_name
+WINDOW w AS (GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING); 
+
+
+
+#################################Slide 57#######################################
+This fails.
+
+SELECT dept_name, AVG(salary), AVG(AVG(salary)) OVER w
+FROM teacher 
+GROUP BY dept_name
+WINDOW w AS (ORDER BY name 
+              GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING) ; 
+
+
+
+#################################Slide 58#######################################
+SELECT d.dept_name, d.building, d.budget, 
+  COUNT(*) OVER w_dept_count as db,
+  AVG(d.budget) OVER w_building_avg as avg_building_budget,
+  d.budget-AVG(d.budget) OVER w_building_avg_range as diff_from_nearby,
+  PERCENT_RANK() OVER w_dept_order as budget_percentile
+FROM department AS d
+WINDOW w_base AS (PARTITION BY d.building),
+       w_dept_count AS (w_base),
+       w_building_avg AS (w_base),
+       w_building_avg_range AS (w_base ORDER BY d.budget
+                 RANGE BETWEEN 10000 PRECEDING AND 10000 FOLLOWING),
+       w_dept_order AS (ORDER BY d.budget)
+ORDER BY d.building, d.budget; 
+
+
+
+#################################Slide 59#######################################
+SELECT t.name, t.dept_name, t.salary, d.building,
+    AVG(t.salary) OVER w_dept as avg_dept_salary,
+    AVG(t.salary) OVER w_building as avg_building_salary,
+    RANK() OVER w_dept_order as salary_rank_in_dept
+FROM teacher t JOIN department d ON t.dept_name = d.dept_name
+WINDOW w_dept AS (PARTITION BY t.dept_name),
+        w_building AS (PARTITION BY d.building),
+        w_dept_order AS (PARTITION BY t.dept_name 
+                         ORDER BY t.salary DESC)
+ORDER BY t.dept_name, t.salary DESC; 
+
+
+
+#################################Slide 60#######################################
+SELECT s.ID, s.name, t.year, t.semester, c.credits,
+     SUM(c.credits) OVER w_running as running_total,
+     AVG(c.credits) OVER w_moving as moving_avg_3_courses
+FROM (student s JOIN takes t ON s.ID = t.ID) 
+      JOIN course c ON t.course_id = c.course_id
+WHERE t.grade IS NOT NULL AND t.grade != 'F'
+WINDOW w_running AS (PARTITION BY s.ID 
+                      ORDER BY t.year, t.semester),
+        w_moving AS (w_running ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)
+ORDER BY s.ID, t.year, t.semester; 
+
