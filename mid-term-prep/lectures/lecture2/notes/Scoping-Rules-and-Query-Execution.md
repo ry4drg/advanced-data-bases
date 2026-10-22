@@ -1,6 +1,6 @@
 ### Scoping Rules and Query Execution
 
-**Scoping** refers to which tables and columns a query can "see" at any given time. When working with subqueries, the database follows a specific hierarchy:
+**Scoping** refers to which tables and columns a query can "see" at any given time. When working with subqueries, the database follows a specific hierarchy :
 
 1.  **Inner Scope:** The subquery can access any tables defined within its own `SELECT` statement.
 2.  **Outer Scope:** The subquery can also access tables defined in the outer query that contains it.
