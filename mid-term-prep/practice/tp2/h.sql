@@ -1,0 +1,1 @@
+-- For each teacher, list all the student names of those students who have taken at least 2 classes from that teacher. You must write this query without HAVING.

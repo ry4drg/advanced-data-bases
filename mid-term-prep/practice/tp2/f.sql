@@ -1,0 +1,1 @@
+-- For each department, find the maximum salary, and then return the minimum of all these maximum values. Return both the dept name as well as the corresponding salary.

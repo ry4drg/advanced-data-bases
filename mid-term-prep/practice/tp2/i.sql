@@ -1,0 +1,1 @@
+-- Find all departments where teachers’ total salary is greater than the average of the total salary of all departments.

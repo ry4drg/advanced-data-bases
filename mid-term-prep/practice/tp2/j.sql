@@ -1,0 +1,1 @@
+-- Find the names and salaries of the teachers among the 3 lowest salaries, sorted by increasing salary. You must write this query using HAVING.
