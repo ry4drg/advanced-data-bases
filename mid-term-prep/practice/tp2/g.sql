@@ -1,5 +1,6 @@
 -- For each teacher, list all the student names of those students who have taken at least 2 classes from that teacher. You must write this query using HAVING.
 
+
 SELECT teacher.name AS teachers_name, student.name AS students_name
 
 FROM student, takes, teacher, teaches
